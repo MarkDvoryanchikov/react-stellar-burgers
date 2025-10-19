@@ -1,7 +1,26 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
-  width: 600px;
-  padding-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
+  max-height: calc(70vh - 280px);
   color: var(--text-primary-color);
+}
+
+.burger_composition {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ingredient_row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.move_button {
+  flex-shrink: 0;
+  cursor: move;
 }
