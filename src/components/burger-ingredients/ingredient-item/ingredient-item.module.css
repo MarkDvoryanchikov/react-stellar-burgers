@@ -1,0 +1,20 @@
+.ingredient_item {
+  position: relative;
+}
+
+.ingredient_item_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingredient_item_price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ingredient_name {
+  margin: 0;
+  text-align: center;
+}

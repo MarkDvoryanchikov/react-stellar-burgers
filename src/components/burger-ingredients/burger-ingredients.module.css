@@ -2,14 +2,28 @@
   display: flex;
   flex-direction: column;
   max-width: 600px;
+  max-height: 70vh;
   color: var(--text-primary-color);
   font-family: 'Jet Brains Mono', serif;
 }
 
 .menu {
   display: flex;
+  height: 50px;
   margin: 0;
   padding: 0;
   text-align: center;
   list-style-type: none;
+}
+
+.scroll_container {
+  flex: 1;
+  height: 100%;
+  min-height: 0; /* Важно для правильного расчета высоты в flex-контейнере */
+}
+
+.ingredients_group {
+  display: flex;
+  flex-direction: column;
+  padding-right: 8px; /* чтобы контент не заезжал под скроллбар */
 }

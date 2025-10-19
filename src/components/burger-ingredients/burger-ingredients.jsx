@@ -1,9 +1,17 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 
+import { IngredientGroup } from '@components/burger-ingredients/ingredient-group/ingredient-group.jsx';
+import { BurgerScrollbar } from '@components/burger-scrollbar/burger-scrollbar.jsx';
+
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = ({ ingredients }) => {
   console.log(ingredients);
+
+  const groupedIngredients = { bun: [], sauce: [], main: [] };
+  for (const ingredient of ingredients) {
+    groupedIngredients[ingredient.type].push(ingredient);
+  }
 
   return (
     <section className={styles.burger_ingredients}>
@@ -19,15 +27,6 @@ export const BurgerIngredients = ({ ingredients }) => {
             Булки
           </Tab>
           <Tab
-            value="main"
-            active={false}
-            onClick={() => {
-              /* TODO */
-            }}
-          >
-            Начинки
-          </Tab>
-          <Tab
             value="sauce"
             active={false}
             onClick={() => {
@@ -36,8 +35,42 @@ export const BurgerIngredients = ({ ingredients }) => {
           >
             Соусы
           </Tab>
+          <Tab
+            value="main"
+            active={false}
+            onClick={() => {
+              /* TODO */
+            }}
+          >
+            Начинки
+          </Tab>
         </ul>
       </nav>
+      <BurgerScrollbar
+        className={styles.scroll_container}
+        thumbColor="#8585ad"
+        width={8}
+        top={48}
+        bottom={48}
+      >
+        <div className={styles.ingredients_group}>
+          <IngredientGroup
+            title="Булки"
+            ingredients={groupedIngredients.bun}
+            type="bun"
+          />
+          <IngredientGroup
+            title="Соусы"
+            ingredients={groupedIngredients.sauce}
+            type="sauce"
+          />
+          <IngredientGroup
+            title="Начинки"
+            ingredients={groupedIngredients.main}
+            type="main"
+          />
+        </div>
+      </BurgerScrollbar>
     </section>
   );
 };
