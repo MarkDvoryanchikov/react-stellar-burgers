@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+
+import { ingredientsPropType } from '../../../utils/prop-types';
 import { IngredientItem } from '../ingredient-item/ingredient-item';
 
 import styles from './ingredient-group.module.css';
@@ -20,4 +23,10 @@ export const IngredientGroup = ({ title, ingredients, type }) => {
       </div>
     </section>
   );
+};
+
+IngredientGroup.propTypes = {
+  title: PropTypes.string.isRequired,
+  ingredients: ingredientsPropType.isRequired,
+  type: PropTypes.oneOf(['bun', 'sauce', 'main']).isRequired,
 };

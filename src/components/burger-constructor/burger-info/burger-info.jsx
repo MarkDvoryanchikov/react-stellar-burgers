@@ -18,3 +18,7 @@ export const BurgerInfo = ({ price }) => {
     </section>
   );
 };
+
+BurgerInfo.propTypes = {
+  price: BurgerInfo.number,
+};

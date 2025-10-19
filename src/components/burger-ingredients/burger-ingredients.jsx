@@ -3,6 +3,8 @@ import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { IngredientGroup } from '@components/burger-ingredients/ingredient-group/ingredient-group.jsx';
 import { BurgerScrollbar } from '@components/burger-scrollbar/burger-scrollbar.jsx';
 
+import { ingredientsPropType } from '../../utils/prop-types';
+
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = ({ ingredients }) => {
@@ -73,4 +75,8 @@ export const BurgerIngredients = ({ ingredients }) => {
       </BurgerScrollbar>
     </section>
   );
+};
+
+BurgerIngredients.propTypes = {
+  ingredients: ingredientsPropType.isRequired,
 };

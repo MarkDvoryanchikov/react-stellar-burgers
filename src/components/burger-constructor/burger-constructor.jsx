@@ -6,6 +6,8 @@ import {
 import { BurgerInfo } from '@components/burger-constructor/burger-info/burger-info.jsx';
 import { BurgerScrollbar } from '@components/burger-scrollbar/burger-scrollbar.jsx';
 
+import { ingredientsPropType } from '../../utils/prop-types';
+
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = ({ ingredients }) => {
@@ -23,7 +25,7 @@ export const BurgerConstructor = ({ ingredients }) => {
     <section className={`${styles.burger_constructor} ml-4`}>
       <div className={`ml-10 mb-4 mr-4`}>
         <ConstructorElement
-          key={`${bun.id}-top`}
+          key={`key={${bun.id}-top}`}
           type="top"
           isLocked={true}
           text={`${bun.name} (верх)`}
@@ -39,11 +41,10 @@ export const BurgerConstructor = ({ ingredients }) => {
         bottom={0}
       >
         <div className={styles.burger_composition}>
-          {mainIngredients.map((ingredient) => (
-            <div key={ingredient.id} className={styles.ingredient_row}>
+          {mainIngredients.map((ingredient, index) => (
+            <div key={`${ingredient.id}-${index}`} className={styles.ingredient_row}>
               <DragIcon type="primary" className={styles.move_button}></DragIcon>
               <ConstructorElement
-                key={ingredient.id}
                 text={ingredient.name}
                 price={ingredient.price}
                 thumbnail={ingredient.image}
@@ -54,7 +55,7 @@ export const BurgerConstructor = ({ ingredients }) => {
       </BurgerScrollbar>
       <div className={`ml-10 mt-4 mr-4`}>
         <ConstructorElement
-          key={`${bun.id}-top`}
+          key={`${bun.id}-bottom`}
           type="bottom"
           isLocked={true}
           text={`${bun.name} (низ)`}
@@ -67,4 +68,8 @@ export const BurgerConstructor = ({ ingredients }) => {
       </div>
     </section>
   );
+};
+
+BurgerConstructor.propTypes = {
+  ingredients: ingredientsPropType.isRequired,
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useRef, useEffect, useState } from 'react';
 
 import styles from './burger-scrollbar.module.css';
@@ -163,4 +164,23 @@ export const BurgerScrollbar = ({
       )}
     </div>
   );
+};
+
+BurgerScrollbar.propTypes = {
+  children: PropTypes.node.isRequired,
+  width: PropTypes.number,
+  thumbColor: PropTypes.string,
+  top: PropTypes.number,
+  bottom: PropTypes.number,
+  className: PropTypes.string,
+  debug: PropTypes.bool,
+};
+
+BurgerScrollbar.defaultProps = {
+  width: 8,
+  thumbColor: '#8585ad',
+  top: 0,
+  bottom: 0,
+  className: '',
+  debug: false,
 };
