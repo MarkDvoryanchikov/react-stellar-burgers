@@ -5,9 +5,9 @@ import { IngredientItem } from '../ingredient-item/ingredient-item';
 
 import styles from './ingredient-group.module.css';
 
-export const IngredientGroup = ({ title, ingredients, type }) => {
+export const IngredientGroup = ({ title, ingredients, type, id }) => {
   return (
-    <section className={`ingredient-group ingredient-group-${type}`}>
+    <section id={id} className={`ingredient-group ingredient-group-${type}`}>
       <h2
         className={`ingredient-group-header ingredient-group-header-${type} mb-6 mt-10`}
       >
@@ -28,5 +28,6 @@ export const IngredientGroup = ({ title, ingredients, type }) => {
 IngredientGroup.propTypes = {
   title: PropTypes.string.isRequired,
   ingredients: ingredientsPropType.isRequired,
-  type: PropTypes.oneOf(['bun', 'sauce', 'main']).isRequired,
+  type: PropTypes.oneOf(['bun', 'main', 'sauce']).isRequired,
+  id: PropTypes.string.isRequired,
 };

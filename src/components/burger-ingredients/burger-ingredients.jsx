@@ -1,4 +1,5 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
+import { useState, useRef, useEffect } from 'react';
 
 import { IngredientGroup } from '@components/burger-ingredients/ingredient-group/ingredient-group.jsx';
 import { BurgerScrollbar } from '@components/burger-scrollbar/burger-scrollbar.jsx';
@@ -10,10 +11,61 @@ import styles from './burger-ingredients.module.css';
 export const BurgerIngredients = ({ ingredients }) => {
   console.log(ingredients);
 
+  const [currentTab, setCurrentTab] = useState('bun');
+  const scrollBarRef = useRef();
+
   const groupedIngredients = { bun: [], sauce: [], main: [] };
   for (const ingredient of ingredients) {
     groupedIngredients[ingredient.type].push(ingredient);
   }
+
+  const onTabClick = (tab) => {
+    setCurrentTab(tab);
+    const element = document.getElementById(tab);
+    if (element && scrollBarRef.current) {
+      scrollBarRef.current.scrollToElement(element, 'smooth');
+    }
+  };
+
+  useEffect(() => {
+    const container = scrollBarRef.current?.getScrollContainer();
+    if (!container) return;
+
+    const handleScroll = () => {
+      const sections = ['bun', 'main', 'sauce']
+        .map((id) => ({
+          id,
+          element: document.getElementById(id),
+          top: document.getElementById(id)?.getBoundingClientRect().top || 0,
+        }))
+        .filter((section) => section.element);
+
+      let closestSection = sections[0];
+      let minDistance = Math.abs(
+        sections[0].element.getBoundingClientRect().top -
+          container.getBoundingClientRect().top
+      );
+
+      for (let i = 1; i < sections.length; i++) {
+        const distance = Math.abs(
+          sections[i].element.getBoundingClientRect().top -
+            container.getBoundingClientRect().top
+        );
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestSection = sections[i];
+        }
+      }
+
+      if (closestSection && closestSection.id !== currentTab) {
+        setCurrentTab(closestSection.id);
+      }
+    };
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [currentTab]);
 
   return (
     <section className={styles.burger_ingredients}>
@@ -21,34 +73,29 @@ export const BurgerIngredients = ({ ingredients }) => {
         <ul className={styles.menu}>
           <Tab
             value="bun"
-            active={true}
-            onClick={() => {
-              /* TODO */
-            }}
+            active={currentTab === 'bun'}
+            onClick={() => onTabClick('bun')}
           >
             Булки
           </Tab>
           <Tab
-            value="sauce"
-            active={false}
-            onClick={() => {
-              /* TODO */
-            }}
-          >
-            Соусы
-          </Tab>
-          <Tab
             value="main"
-            active={false}
-            onClick={() => {
-              /* TODO */
-            }}
+            active={currentTab === 'main'}
+            onClick={() => onTabClick('main')}
           >
             Начинки
+          </Tab>
+          <Tab
+            value="sauce"
+            active={currentTab === 'sauce'}
+            onClick={() => onTabClick('sauce')}
+          >
+            Соусы
           </Tab>
         </ul>
       </nav>
       <BurgerScrollbar
+        ref={scrollBarRef}
         className={styles.scroll_container}
         thumbColor="#8585ad"
         width={8}
@@ -60,16 +107,19 @@ export const BurgerIngredients = ({ ingredients }) => {
             title="Булки"
             ingredients={groupedIngredients.bun}
             type="bun"
-          />
-          <IngredientGroup
-            title="Соусы"
-            ingredients={groupedIngredients.sauce}
-            type="sauce"
+            id="bun"
           />
           <IngredientGroup
             title="Начинки"
             ingredients={groupedIngredients.main}
             type="main"
+            id="main"
+          />
+          <IngredientGroup
+            title="Соусы"
+            ingredients={groupedIngredients.sauce}
+            type="sauce"
+            id="sauce"
           />
         </div>
       </BurgerScrollbar>
