@@ -5,7 +5,7 @@ import { IngredientItem } from '../ingredient-item/ingredient-item';
 
 import styles from './ingredient-group.module.css';
 
-export const IngredientGroup = ({ title, ingredients, type, id }) => {
+export const IngredientGroup = ({ title, ingredients, type, id, onIngredientClick }) => {
   return (
     <section id={id} className={`ingredient-group ingredient-group-${type}`}>
       <h2
@@ -18,7 +18,11 @@ export const IngredientGroup = ({ title, ingredients, type, id }) => {
         className={`${styles.ingredient_group_content} ingredient-group-content-${type} ml-4 mr-4`}
       >
         {ingredients.map((ingredient) => (
-          <IngredientItem key={ingredient._id} ingredient={ingredient} />
+          <IngredientItem
+            key={ingredient._id}
+            ingredient={ingredient}
+            onClick={() => onIngredientClick(ingredient)}
+          />
         ))}
       </div>
     </section>
@@ -30,4 +34,5 @@ IngredientGroup.propTypes = {
   ingredients: ingredientsPropType.isRequired,
   type: PropTypes.oneOf(['bun', 'main', 'sauce']).isRequired,
   id: PropTypes.string.isRequired,
+  onIngredientClick: PropTypes.func.isRequired,
 };

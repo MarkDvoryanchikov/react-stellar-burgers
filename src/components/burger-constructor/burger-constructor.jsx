@@ -2,24 +2,34 @@ import {
   ConstructorElement,
   DragIcon,
 } from '@krgaa/react-developer-burger-ui-components';
+import { useState } from 'react';
 
 import { BurgerInfo } from '@components/burger-constructor/burger-info/burger-info.jsx';
+import { OrderDetails } from '@components/burger-constructor/order-details/order-details.jsx';
 import { BurgerScrollbar } from '@components/burger-scrollbar/burger-scrollbar.jsx';
 
 import { ingredientsPropType } from '../../utils/prop-types';
+import { Modal } from '../modal/modal';
 
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = ({ ingredients }) => {
-  console.log(ingredients);
-
   const bun =
     ingredients.find((ingredient) => ingredient.type === 'bun') || ingredients[0];
   const mainIngredients = ingredients.filter((ingredient) => ingredient !== bun);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   const totalPrice = ingredients.reduce((sum, ingredient) => {
     return sum + ingredient.price * ingredient.__v;
   }, 0);
+
+  const openOrderModal = () => {
+    setIsOrderModalOpen(true);
+  };
+
+  const closeOrderModal = () => {
+    setIsOrderModalOpen(false);
+  };
 
   return (
     <section className={`${styles.burger_constructor} ml-4`}>
@@ -64,8 +74,13 @@ export const BurgerConstructor = ({ ingredients }) => {
         />
       </div>
       <div className={`mt-10`}>
-        <BurgerInfo price={totalPrice}></BurgerInfo>
+        <BurgerInfo price={totalPrice} onOrderClick={openOrderModal} />
       </div>
+      {isOrderModalOpen && (
+        <Modal onClose={closeOrderModal} title="">
+          <OrderDetails orderNumber="000451" />
+        </Modal>
+      )}
     </section>
   );
 };

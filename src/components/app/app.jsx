@@ -9,6 +9,8 @@ import { request } from '../../utils/api';
 
 import styles from './app.module.css';
 
+// export const modalRoot = document.getElementById("modals");
+
 export const App = () => {
   const [ingredients, setIngredients] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -1,10 +1,12 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useState, useRef, useEffect } from 'react';
 
+import { IngredientDetails } from '@components/burger-ingredients/ingredient-details/ingredient-details.jsx';
 import { IngredientGroup } from '@components/burger-ingredients/ingredient-group/ingredient-group.jsx';
 import { BurgerScrollbar } from '@components/burger-scrollbar/burger-scrollbar.jsx';
 
 import { ingredientsPropType } from '../../utils/prop-types';
+import { Modal } from '../modal/modal.jsx';
 
 import styles from './burger-ingredients.module.css';
 
@@ -13,11 +15,23 @@ export const BurgerIngredients = ({ ingredients }) => {
 
   const [currentTab, setCurrentTab] = useState('bun');
   const scrollBarRef = useRef();
+  const [ingredientInModal, setIngredientInModal] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const groupedIngredients = { bun: [], sauce: [], main: [] };
   for (const ingredient of ingredients) {
     groupedIngredients[ingredient.type].push(ingredient);
   }
+
+  const handleIngredientClick = (ingredient) => {
+    setIngredientInModal(ingredient);
+    setIsModalOpen(true);
+  };
+
+  const closeIngredientModal = () => {
+    setIsModalOpen(false);
+    setIngredientInModal(null);
+  };
 
   const onTabClick = (tab) => {
     setCurrentTab(tab);
@@ -68,62 +82,72 @@ export const BurgerIngredients = ({ ingredients }) => {
   }, [currentTab]);
 
   return (
-    <section className={styles.burger_ingredients}>
-      <nav>
-        <ul className={styles.menu}>
-          <Tab
-            value="bun"
-            active={currentTab === 'bun'}
-            onClick={() => onTabClick('bun')}
-          >
-            Булки
-          </Tab>
-          <Tab
-            value="main"
-            active={currentTab === 'main'}
-            onClick={() => onTabClick('main')}
-          >
-            Начинки
-          </Tab>
-          <Tab
-            value="sauce"
-            active={currentTab === 'sauce'}
-            onClick={() => onTabClick('sauce')}
-          >
-            Соусы
-          </Tab>
-        </ul>
-      </nav>
-      <BurgerScrollbar
-        ref={scrollBarRef}
-        className={styles.scroll_container}
-        thumbColor="#8585ad"
-        width={8}
-        top={48}
-        bottom={48}
-      >
-        <div className={styles.ingredients_group}>
-          <IngredientGroup
-            title="Булки"
-            ingredients={groupedIngredients.bun}
-            type="bun"
-            id="bun"
-          />
-          <IngredientGroup
-            title="Начинки"
-            ingredients={groupedIngredients.main}
-            type="main"
-            id="main"
-          />
-          <IngredientGroup
-            title="Соусы"
-            ingredients={groupedIngredients.sauce}
-            type="sauce"
-            id="sauce"
-          />
-        </div>
-      </BurgerScrollbar>
-    </section>
+    <>
+      <section className={styles.burger_ingredients}>
+        <nav>
+          <ul className={styles.menu}>
+            <Tab
+              value="bun"
+              active={currentTab === 'bun'}
+              onClick={() => onTabClick('bun')}
+            >
+              Булки
+            </Tab>
+            <Tab
+              value="main"
+              active={currentTab === 'main'}
+              onClick={() => onTabClick('main')}
+            >
+              Начинки
+            </Tab>
+            <Tab
+              value="sauce"
+              active={currentTab === 'sauce'}
+              onClick={() => onTabClick('sauce')}
+            >
+              Соусы
+            </Tab>
+          </ul>
+        </nav>
+        <BurgerScrollbar
+          ref={scrollBarRef}
+          className={styles.scroll_container}
+          thumbColor="#8585ad"
+          width={8}
+          top={48}
+          bottom={48}
+        >
+          <div className={styles.ingredients_group}>
+            <IngredientGroup
+              title="Булки"
+              ingredients={groupedIngredients.bun}
+              type="bun"
+              id="bun"
+              onIngredientClick={handleIngredientClick}
+            />
+            <IngredientGroup
+              title="Начинки"
+              ingredients={groupedIngredients.main}
+              type="main"
+              id="main"
+              onIngredientClick={handleIngredientClick}
+            />
+            <IngredientGroup
+              title="Соусы"
+              ingredients={groupedIngredients.sauce}
+              type="sauce"
+              id="sauce"
+              onIngredientClick={handleIngredientClick}
+            />
+          </div>
+        </BurgerScrollbar>
+      </section>
+      {isModalOpen && ingredientInModal && (
+        <Modal onClose={closeIngredientModal} title="Детали ингредиента">
+          <IngredientDetails ingredientData={ingredientInModal} />
+        </Modal>
+      )}
+    </>
   );
 };
 

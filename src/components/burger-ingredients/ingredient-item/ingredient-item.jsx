@@ -1,12 +1,13 @@
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 import { ingredientPropType } from '../../../utils/prop-types';
 
 import styles from './ingredient-item.module.css';
 
-export const IngredientItem = ({ ingredient }) => {
+export const IngredientItem = ({ ingredient, onClick }) => {
   return (
-    <section key={ingredient._id} className={styles.ingredient_item}>
+    <section key={ingredient._id} className={styles.ingredient_item} onClick={onClick}>
       {ingredient.__v > 0 && (
         <Counter
           count={ingredient.__v}
@@ -28,4 +29,5 @@ export const IngredientItem = ({ ingredient }) => {
 
 IngredientItem.propTypes = {
   ingredient: ingredientPropType.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

@@ -1,0 +1,19 @@
+.order_details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 620px;
+  text-align: center;
+}
+
+.order_number {
+  text-shadow:
+    0 0 16px rgb(51 51 255 / 25%),
+    0 0 8px rgb(51 51 255 / 25%),
+    0 4px 32px rgb(51 51 255 / 50%);
+}
+
+.done_image {
+  width: 120px;
+  height: 120px;
+}

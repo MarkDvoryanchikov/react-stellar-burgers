@@ -1,8 +1,9 @@
 import { CurrencyIcon, Button } from '@krgaa/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 import styles from './burger-info.module.css';
 
-export const BurgerInfo = ({ price }) => {
+export const BurgerInfo = ({ price, onOrderClick }) => {
   return (
     <section className={`${styles.order_content} mr-4`}>
       <div className={`${styles.price} ml-5 pr-10`}>
@@ -12,7 +13,7 @@ export const BurgerInfo = ({ price }) => {
           className={`${styles.currency_icon} text text_type_digits-medium ml-6`}
         ></CurrencyIcon>
       </div>
-      <Button htmlType="button" type="primary" size="medium">
+      <Button htmlType="button" type="primary" size="medium" onClick={onOrderClick}>
         Оформить заказ
       </Button>
     </section>
@@ -21,4 +22,5 @@ export const BurgerInfo = ({ price }) => {
 
 BurgerInfo.propTypes = {
   price: BurgerInfo.number,
+  onOrderClick: PropTypes.func.isRequired,
 };

@@ -19,11 +19,11 @@
 .scroll_container {
   flex: 1;
   height: 100%;
-  min-height: 0; /* Важно для правильного расчета высоты в flex-контейнере */
+  min-height: 0;
 }
 
 .ingredients_group {
   display: flex;
   flex-direction: column;
-  padding-right: 8px; /* чтобы контент не заезжал под скроллбар */
+  padding-right: 8px;
 }
