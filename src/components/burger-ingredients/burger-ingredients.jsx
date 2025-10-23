@@ -5,6 +5,7 @@ import { IngredientDetails } from '@components/burger-ingredients/ingredient-det
 import { IngredientGroup } from '@components/burger-ingredients/ingredient-group/ingredient-group.jsx';
 import { BurgerScrollbar } from '@components/burger-scrollbar/burger-scrollbar.jsx';
 
+import { useModal } from '../../hooks/use-modal';
 import { ingredientsPropType } from '../../utils/prop-types';
 import { Modal } from '../modal/modal.jsx';
 
@@ -16,7 +17,7 @@ export const BurgerIngredients = ({ ingredients }) => {
   const [currentTab, setCurrentTab] = useState('bun');
   const scrollBarRef = useRef();
   const [ingredientInModal, setIngredientInModal] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   const groupedIngredients = { bun: [], sauce: [], main: [] };
   for (const ingredient of ingredients) {
@@ -25,11 +26,11 @@ export const BurgerIngredients = ({ ingredients }) => {
 
   const handleIngredientClick = (ingredient) => {
     setIngredientInModal(ingredient);
-    setIsModalOpen(true);
+    openModal(true);
   };
 
   const closeIngredientModal = () => {
-    setIsModalOpen(false);
+    closeModal(false);
     setIngredientInModal(null);
   };
 
