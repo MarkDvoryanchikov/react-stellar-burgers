@@ -1,0 +1,52 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.content {
+  height: fit-content;
+}
+
+.track {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  bottom: 0;
+  z-index: 10;
+  width: 6px;
+  background: #353541;
+  opacity: 0.2;
+  transition: opacity 0.2s;
+  pointer-events: auto;
+}
+
+.wrapper:hover .track {
+  opacity: 0.8;
+}
+
+.thumb {
+  position: absolute;
+  right: 0;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.thumb:hover {
+  background: #a3a3da !important;
+  opacity: 1;
+}
